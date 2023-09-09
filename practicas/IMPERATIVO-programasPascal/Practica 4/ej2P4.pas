@@ -282,35 +282,27 @@ begin
 	Inicializar (a, ar);
 	GenerarDosEstructuras(a, ar); //a
 	
-	if (a = nil) then writeln ('No se han realizado prestamos :('); 
-	ImprimirArbol (ar); //vericando q esta bien armado el arbol
-	
-	writeln ('El ISBN mas grande es: ', Maximo (a)); //b
-	writeln ('El ISBN mas chico es: ', Minimo (ar)); //c
-	
-	writeln ('ARBOL DONDE CADA NODO ES UN PRESTAMO:');
-	writeln ('Ingrese un numero de socio para buscar cuantos prestamos hizo: '); read (numSocio);
-	writeln ('La cantidad de prestamos que realizo el socio numero ', numSocio ,' es: ', incisoD(a, numSocio)); //d
-	
-	writeln ('ARBOL DONDE SE SEPARA POR ISBN:');
-	writeln ('Ingrese un numero de socio para buscar cuantos prestamos hizo: '); read (numSocio);
-	writeln ('La cantidad de prestamos que realizo el socio numero ', numSocio ,' es: ', incisoE(ar, numSocio)); //e
-	
-	//quedan pendientes f, g y h
-	
-	writeln ('Ingrese 2 numeros de ISBN : '); readln (valor1); readln (valor2); 
-	writeln ('La cantidad de prestamos comprendidos entre los valores ingresados son: ', Busquedai(a, valor1, valor2)); //i
-	
-	writeln ('Ingrese 2 numeros de ISBN : '); readln (valor1); readln (valor2); 
-	writeln ('La cantidad de prestamos comprendidos entre los valores ingresados son: ', Busquedaii(ar, valor1, valor2)); //j
+	if (a = nil) then writeln ('No se han realizado prestamos :(')
+	else begin
+		ImprimirArbol (ar); //vericando q esta bien armado el arbol
+		
+		writeln ('El ISBN mas grande es: ', Maximo (a)); //b
+		writeln ('El ISBN mas chico es: ', Minimo (ar)); //c
+		
+		writeln ('ARBOL DONDE CADA NODO ES UN PRESTAMO:');
+		writeln ('Ingrese un numero de socio para buscar cuantos prestamos hizo: '); read (numSocio);
+		writeln ('La cantidad de prestamos que realizo el socio numero ', numSocio ,' es: ', incisoD(a, numSocio)); //d
+		
+		writeln ('ARBOL DONDE SE SEPARA POR ISBN:');
+		writeln ('Ingrese un numero de socio para buscar cuantos prestamos hizo: '); read (numSocio);
+		writeln ('La cantidad de prestamos que realizo el socio numero ', numSocio ,' es: ', incisoE(ar, numSocio)); //e
+		
+		//quedan pendientes f, g y h
+		
+		writeln ('Ingrese 2 numeros de ISBN : '); readln (valor1); readln (valor2); 
+		writeln ('La cantidad de prestamos comprendidos entre los valores ingresados son: ', Busquedai(a, valor1, valor2)); //i
+		
+		writeln ('Ingrese 2 numeros de ISBN : '); readln (valor1); readln (valor2); 
+		writeln ('La cantidad de prestamos comprendidos entre los valores ingresados son: ', Busquedaii(ar, valor1, valor2)); //j
+	end;
 end.
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
