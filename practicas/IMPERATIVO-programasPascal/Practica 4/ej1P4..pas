@@ -72,11 +72,10 @@ procedure Imprimir (a : arbol);
 begin
 	if (a <> nil) then begin
 		Imprimir (a^.HI);
-		writeln ('____');
+		writeln ('');
 		writeln ('Codigo de producto: ', a^.dato.cod);
 		writeln ('cantidad de productos vendidos: ', a^.dato.cant);
 		writeln ('Monto total: ', a^.dato.montoTotal:0:1);
-		//writeln ('_____');
 		Imprimir (a^.HD);
 		
 	end;
@@ -110,14 +109,36 @@ var
 	cant: integer;
 begin
 	cant:= 0;
-	if a <> nil then
-		incisoD(a,cant, valor);
+	incisoD(a,cant, valor);
 	CantMenores:= cant;
 end;
+
+function BusquedaAcotada(a:arbol; inf, sup:integer): real;
+begin
+	if (a <> nil) then begin
+		if (a^.dato.cod >= sup) then
+			BusquedaAcotada:= BusquedaAcotada(a^.HI,inf,sup)
+		else
+			if (a^.dato.cod > inf) and (a^.dato.cod < sup) then 
+				BusquedaAcotada:= a^.dato.montoTotal + BusquedaAcotada(a^.HI,inf,sup) + BusquedaAcotada(a^.HD,inf,sup)
+			else if (a^.dato.cod <= inf) then
+					BusquedaAcotada:= BusquedaAcotada(a^.HD, inf,sup);
+	end
+	else
+		BusquedaAcotada:=0;
+end;
+
+function MontoTotal (a: arbol; num1, num2: integer): real;
+begin
+	if (num2 > num1) then 	
+		MontoTotal:= MontoTotal(a, num1, num2)
+	else MontoTotal:= MontoTotal(a, num2, num1)
+end;
+
 //pp
 var
 	a: arbol;
-	maxCant, maxCod, valor: integer;
+	maxCant, maxCod, valor, valor2: integer;
 	
 begin
 	randomize;
@@ -133,6 +154,8 @@ begin
 		writeln ('');
 		writeln ('La cantidad de codigos menores a ', valor, ' son: ', CantMenores(a, valor));
 		writeln ('');
+		writeln ('Ingrese 2 valores de codigo de producto para retornar el monto total entre esos valores '); readln (valor);readln (valor2);
+		writeln ('El monto total entre ', valor, ' y ', valor2, ' es: ', BusquedaAcotada(a, valor, valor2):0:1);
 	end
 	else writeln ('No se han ingresado datos :)');
 end.

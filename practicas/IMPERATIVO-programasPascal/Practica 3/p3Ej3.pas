@@ -23,6 +23,17 @@ type
 		ingreso: integer;
 	end;
 	
+	InfoPromedio = record	
+		legajo: integer;
+		promedio: real;
+	end;
+	
+	lista = ^nodo3;
+	nodo3 = record
+		dato: InfoPromedio;
+		sig: lista;
+	end;
+	
 	listaAlumnos = ^nodo2;
 	nodo2 = record
 		dato: infoAlu;
@@ -135,6 +146,8 @@ end;
 
 procedure ImprimirLista (L: listaAlumnos);
 begin
+	if (L = nil) then writeln ('No hay numeros de legajos menores al valor ingresado ')
+	else writeln ('Alumnos cuyo legajo es menor al valor ingresado son: ');
 	while L<> nil do begin
 		writeln ('dni: ', L^.dato.dni);
 		writeln ('anio de ingreso: ', L^.dato.ingreso);
@@ -209,21 +222,41 @@ begin
 	end;	
 end;
 
-procedure PromediosSuperan (a: arbol; valor: real);
+procedure AgregarAdelanteE (var pri: lista; legajo: integer; promedio: real);
+var 
+	nue: lista;
+begin
+	new (nue);
+	nue^.dato.promedio:= promedio;
+	nue^.dato.legajo:= legajo;
+	nue^.sig:= pri;
+	pri:= nue;
+end;
+
+procedure PromediosSuperan (a: arbol; valor: real; var L: lista);
 var
 	promedio: real;
 begin
 	if (a <> nil) then begin
 		promedio:= PromAlumno(a^.dato.finales);
 		if (promedio > valor) then begin
-			writeln ('legajo: ', a^.dato.legajo);
-			writeln ('promedio: ', promedio:0:1);
+			AgregarAdelanteE (L, a^.dato.legajo, promedio)
 		end;
-		PromediosSuperan(a^.HI, valor);
-		PromediosSuperan(a^.HD, valor);
+		PromediosSuperan(a^.HI, valor, L);
+		PromediosSuperan(a^.HD, valor, L);
 	end;
 end;
 
+procedure ImprimirListaP (L: lista; valor: real);
+begin
+	if (L = nil) then writeln ('No hay promedios que superen el valor: ', valor:0:1)
+	else writeln ('los legajos y promedios de los alumnos cuyo promedio supera el valor ingresado son: ');
+	while (L <> nil) do begin
+		writeln ('legajo: ', L^.dato.legajo);
+		writeln ('promedio: ', L^.dato.promedio:0:1);
+		L:= L^.sig;
+	end;
+end;
 
 
 //pp
@@ -231,6 +264,7 @@ end;
 var
 	a: arbol;
 	L: listaAlumnos;
+	LP: lista;
 	legajo, max, maxLegajo, cant: integer;
 	maxProm, valor: real;
 begin
@@ -240,7 +274,6 @@ begin
 		writeln ('Ingrese un numero de legajo para buscar los menores a el: '); readln (legajo);
 		L:= NIL;
 		incisoB(a, L, legajo);
-		writeln ('Alumnos cuyo legajo es menor a: ', legajo, ' son:');
 		ImprimirLista(L);
 		writeln ('El mayor numero de legajo es: ', MaximoLegajo(a));
 		max:= -1;
@@ -248,12 +281,16 @@ begin
 		writeln ('El dni mas grande es: ', max);
 		cant:= 0;
 		legajosImpares(a, cant);
-		writeln ('La cantidad de legajos impares es: ', cant);
+		if (cant > 0) then
+			writeln ('La cantidad de legajos impares es: ', cant)
+		else writeln ('No hay legajos impares ');
 		maxProm:= 0;
 		MejorPromedio(a, maxProm, maxLegajo);
 		writeln ('El alumno con mejor promedio es el nro legajo: ', maxLegajo, ' con un promedio de: ', maxProm:0:1);
 		writeln ('Ingrese un valor entre 0 y 10: '); readln (valor);
-		PromediosSuperan(a, valor);
+		LP:= NIL;
+		PromediosSuperan(a, valor, LP);
+		ImprimirListaP (LP, valor)
 	end
 	else writeln ('No se han ingresado datos');
 end.
