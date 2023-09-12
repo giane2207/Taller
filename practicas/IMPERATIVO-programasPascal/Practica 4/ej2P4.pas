@@ -18,6 +18,12 @@ type
 		cantDias: integer;
 	end;
 	
+	prestamoLista = record
+		num: integer;
+		fecha: Rfecha;
+		cantDias: integer;
+	end;
+	
 	arbol = ^nodo;
 	nodo = record
 		dato: prestamo;
@@ -81,7 +87,9 @@ var
 	nue: listaP;
 begin
 	new (nue);
-	nue^.dato:= p;
+	nue^.dato.fecha:= p.fecha; 
+	nue^.dato.cantDias:= p.cantDias;
+	nue^.dato.num:= p.num;
 	nue^.sig:= pri;
 	pri:= nue;
 end;

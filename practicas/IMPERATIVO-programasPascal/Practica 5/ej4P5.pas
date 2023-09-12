@@ -60,8 +60,8 @@ procedure Actualizar (var a: arbol; r: reclamo);
 begin
 	AgregarAdelante(a^.dato.lista,r);
 	a^.dato.cant:= a^.dato.cant + 1;
-	
 end;
+
 procedure Agregar (var a: arbol; r: reclamo);
 begin
 	if (a = nil) then begin
