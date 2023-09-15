@@ -18,12 +18,6 @@ type
 		cantDias: integer;
 	end;
 	
-	prestamoLista = record
-		num: integer;
-		fecha: Rfecha;
-		cantDias: integer;
-	end;
-	
 	arbol = ^nodo;
 	nodo = record
 		dato: prestamo;
@@ -31,15 +25,22 @@ type
 		HD: arbol;
 	end;
 	
+	//arbol de lista 
+	prestamoLista = record //registro sin el dato por el cual se va ordenar el arbol para no repetir
+		num: integer;
+		fecha: Rfecha;
+		cantDias: integer;
+	end;
+	
 	listaP = ^nodo2;
 	nodo2 = record
-		dato: prestamo;
+		dato: prestamoLista; 
 		sig: listaP;
 	end;
 	
-	prestamos = record
-		ISBN: integer;
-		lista: listaP;
+	prestamos = record //esto va a almacenar el arbol
+		ISBN: integer; //se guarda una unica vez en cada nodo
+		lista: listaP; //lista de cada isbn
 	end;
 	
 	arbolISBN = ^nodo3;
